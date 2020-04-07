@@ -1,5 +1,7 @@
 package edu.unl.raikes.mapslab;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,43 +10,58 @@ public class MapsLab {
 	/**
 	 * Prints the map to the console in a clear, easy-to-understand format.
 	 * 
-	 * @param map
-	 *            the map whose keys and values you want to print.
+	 * @param map the map whose keys and values you want to print.
 	 */
 	public static void printAMap(Map<? extends Object, ? extends Object> map) {
-		// TODO: do the things (you may not use map's toString function)
+		Set<? extends Object> set = map.keySet();
+		for (Object key : set) {
+			System.out.println(key + ": " + map.getOrDefault(key, null));
+		}
 	}
 
 	/**
 	 * Creates a map, with words as keys and the number of times the word appears as
 	 * values. The keys do not need to be sorted in any specific order.
 	 * 
-	 * @param input
-	 *            the String of words whose frequencies we want to count
+	 * @param input the String of words whose frequencies we want to count
 	 * @return a Map of words and their frequencies
 	 */
 	public static Map<String, Integer> getWordFrequencies(String input) {
 		String[] words = input.split(" +");
 
-		// TODO: do the things
-		return null;
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		for (int i = 0; i < words.length; i++) {
+			int frequency = map.getOrDefault(words[i], 0);
+			map.put(words[i], frequency + 1);
+		}
+		return map;
 	}
 
 	/**
 	 * Creates a map, with word lengths as keys and a Set of words that have that
 	 * length as values. E.g. the Integer 4 would map to the list:
 	 * {dogs,love,toad,goat,pets}, assuming those five words were the only unique
-	 * words with 4 letters included in the input. 
+	 * words with 4 letters included in the input.
 	 * 
-	 * @param input
-	 *            the String of words whose lengths we want to consider
+	 * @param input the String of words whose lengths we want to consider
 	 * @return a Map of words and their frequencies
 	 */
 	public static Map<Integer, Set<String>> getWordsOfLengths(String input) {
 		String[] words = input.split(" +");
 
-		// TODO: do the things
-		return null;
+		Map<Integer, Set<String>> map = new HashMap<Integer, Set<String>>();
+
+		for(int i = 0; i < words.length; i++) {
+			int length = words[i].length();
+			
+			//if the length is NOT already in the set - make an empty set for that length
+			Set<String> set= map.getOrDefault(length, new HashSet<String>());
+			
+			set.add(words[i]);
+			map.put(length, set);
+		}
+		return map;
 	}
 
 	/**
@@ -55,38 +72,45 @@ public class MapsLab {
 	 * with {peace} as its value. The keys of the returned Map should be sorted
 	 * alphabetically.
 	 * 
-	 * @param input
-	 *            the String of words whose lengths we want to consider
+	 * @param input the String of words whose lengths we want to consider
 	 * @return a Map of words and their frequencies
 	 */
 	public static Map<Character, Set<String>> getWordsThatIncludeChars(String input) {
 		String[] words = input.split(" +");
 
+		Map<Character, Set<String>> map = new HashMap<Character, Set<String>>();
+
+		for(int i = 0; i < words.length; i++) {
+			for(int j = 0; j < words[i].length(); j++) {
+				char character = words[i].charAt(j);
+				
+				Set<String> set = map.getOrDefault(character, new HashSet<String>());
+				
+				set.add(words[i]);
+				map.put(character, set);
+			}
+		}
 		// TODO: do the things
-		return null;
+		return map;
 	}
 
 	/**
 	 * Main function. Controls the program.
+	 * 
 	 * @param args this program does not accept any args
 	 */
 	public static void main(String[] args) {
 		// word frequencies
 		Map<String, Integer> frequencies = getWordFrequencies("my name is george and i was a"
-				+ " president and my dad was a president too and his name is also george"
-				+ " are you a president too");
+				+ " president and my dad was a president too and his name is also george" + " are you a president too");
 		printAMap(frequencies);
 		System.out.println("\n--------------------------\n");
 
 		// word lengths
 		Map<Integer, Set<String>> wordLengths = getWordsOfLengths("For Nebraska and the scarlet "
-				+ "For Nebraska and the cream " 
-				+ "Tho' they go thru many a battle " 
-				+ "Our colors still are seen "
-				+ "So in contest and in vict'ry " 
-				+ "We will wave them for the team "
-				+ "And 'twill always stir a Cornhusker " 
-				+ "The old scarlet and the cream");
+				+ "For Nebraska and the cream " + "Tho' they go thru many a battle " + "Our colors still are seen "
+				+ "So in contest and in vict'ry " + "We will wave them for the team "
+				+ "And 'twill always stir a Cornhusker " + "The old scarlet and the cream");
 		printAMap(wordLengths);
 		System.out.println("\n--------------------------\n");
 
