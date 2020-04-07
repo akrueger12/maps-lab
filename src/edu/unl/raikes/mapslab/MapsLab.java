@@ -90,7 +90,6 @@ public class MapsLab {
 				map.put(character, set);
 			}
 		}
-		// TODO: do the things
 		return map;
 	}
 
